@@ -104,7 +104,7 @@ module.exports = function(grunt) {
       // remove last comma
       src = src.replace(/(,)[^,]*(}$)/g, "\n$2");
 
-      grunt.verbose.oklns("Successfully regexed...")
+      grunt.verbose.oklns("Successfully regexed...");
 
       // Write the destination file.
       src = JSON.parse(src);
