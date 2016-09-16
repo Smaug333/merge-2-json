@@ -13,19 +13,18 @@ module.exports = function(grunt) {
   // Please see the Grunt documentation for more information regarding task
   // creation: http://gruntjs.com/creating-tasks
 
-  grunt.registerMultiTask('merge_2_json', 'Merges Objects or key-value pairs to valid Json Object', function() {
+  grunt.registerMultiTask('merge-2-json', 'Merges Objects or key-value pairs to valid Json Object', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      punctuation: '.',
-      separator: ', '
     }),
+
     filestring,
     // remove any curly brackets
     regbracketstart = "{",
     regbracketend = "}",
     // select any without quotes and add them
     regquoteskey = /([A-Za-z0-9_\-]+?)\s*:/g,
-    regqoutesvalue = /([A-Za-z0-9_\-]+?)\s*(\n|,)/g,
+    regqoutesvalue = /([A-Za-z0-9_\-]+?)\s*(\s|,|$)/g,
     // select any without comma and add it
     regcomma = /(:\s)(".*")(?!\s*,)/g,
 

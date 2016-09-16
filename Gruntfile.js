@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     },
 
     // Configuration to be run (and then tested).
-    merge_2_json: {
+    'merge-2-json': {
       default_options: {
         options: {
         },
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'merge_2_json', 'nodeunit']);
+  grunt.registerTask('test', ['clean', 'merge-2-json', 'nodeunit']);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
