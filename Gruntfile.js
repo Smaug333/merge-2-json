@@ -19,7 +19,8 @@ module.exports = function(grunt) {
         '<%= nodeunit.tests %>'
       ],
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+        reporterOutput: ""
       }
     },
 
@@ -30,17 +31,15 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     merge_2_json: {
-      // default_options: {
-      //   options: {
-      //   },
-      //   files: {
-      //     'tmp/global.json': ['test/fixtures/*globals.js']
-      //   }
-      // },
+      default_options: {
+        options: {
+        },
+        files: {
+          'tmp/global.json': ['test/fixtures/*globals.js']
+        }
+      },
       custom_options: {
         options: {
-          separator: '',
-          punctuation: ''
         },
         files: {
          'tmp/global.json': ['test/fixtures/*globals.js']
