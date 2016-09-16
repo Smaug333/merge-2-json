@@ -92,8 +92,6 @@ module.exports = function(grunt) {
         grunt.log.oklns("...OK"); 
         return filestring;
       }).join(grunt.util.normalizelf(''));
-
-      grunt.log.writeln(src);
       
 // Handle options.
       // src += options.punctuation;
