@@ -19,6 +19,8 @@ module.exports = function(grunt) {
     }),
 
     filestring,
+    desaster = "",
+    umlaut = /[\u00c4-\u02AF]/,
     // remove any curly brackets
     regbracketstart = "{",
     regbracketend = "}",
@@ -29,6 +31,7 @@ module.exports = function(grunt) {
     regcomma = /(:\s)(".*")(?!\s*,)/g,
 
     regexes = [
+      umlaut,
       regbracketstart,
       regbracketend,
       regquoteskey,
@@ -58,6 +61,10 @@ module.exports = function(grunt) {
         regexes.map(function(item,index) {
 
           switch (item) {
+            case umlaut:
+              message = "DON'T use Umlaut!";
+              regreplace = '';
+              desaster = filepath;
             case regbracketstart:
               message = "nothing, everthing fine";
               regreplace = '';
@@ -87,13 +94,17 @@ module.exports = function(grunt) {
             }
           }
 
+
           filestring = filestring.replace(item, regreplace);
         });
         grunt.log.oklns("...OK"); 
         return filestring;
       }).join(grunt.util.normalizelf(''));
       
-// Handle options.
+      if( desaster.length > -1 ) {
+        grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desaster + '\n' );
+      }
+      // Handle options.
       // src += options.punctuation;
 
       // add curly brackets
