@@ -18,9 +18,12 @@ module.exports = function(grunt) {
     var options = this.options({
     }),
 
+    // test = (options.lazy)? "true" : "false", 
+
     filestring,
-    desaster = "",
-    umlaut = /[\u00c4-\u02AF]/,
+    desaster = "-1",
+    desasterpath = "",
+    regumlaut = /[\u00c4-\u02AF]/,
     // remove any curly brackets
     regbracketstart = "{",
     regbracketend = "}",
@@ -31,7 +34,7 @@ module.exports = function(grunt) {
     regcomma = /(:\s)(".*")(?!\s*,)/g,
 
     regexes = [
-      umlaut,
+      regumlaut,
       regbracketstart,
       regbracketend,
       regquoteskey,
@@ -41,6 +44,7 @@ module.exports = function(grunt) {
     message = "",
     regreplace = "";
 
+    // grunt.log.writeln(test);
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
 
@@ -61,10 +65,12 @@ module.exports = function(grunt) {
         regexes.map(function(item,index) {
 
           switch (item) {
-            case umlaut:
+            case regumlaut:
               message = "DON'T use Umlaut!";
               regreplace = '';
-              desaster = filepath;
+              desaster = filestring.search(regumlaut);
+              desasterpath = filepath;
+              break;
             case regbracketstart:
               message = "nothing, everthing fine";
               regreplace = '';
@@ -88,22 +94,24 @@ module.exports = function(grunt) {
           }
           
           if(filestring.search(item) >= 0) {
-            if( item !== regbracketstart && item !== regbracketend ) {
+            if( item !== regbracketstart && item !== regbracketend && item !== regumlaut) {
               grunt.verbose.warn( '\n ' + filepath + ': \nMissing ' + message + '\n');
               grunt.verbose.oklns("...OK\n \n ");
             }
           }
-
-
-          filestring = filestring.replace(item, regreplace);
+          if( desaster === -1 ) {
+            filestring = filestring.replace(item, regreplace);
+          }
         });
+  
+        if( desaster > -1 ) {
+          grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desasterpath + '\n' );
+        }
+  
         grunt.log.oklns("...OK"); 
         return filestring;
       }).join(grunt.util.normalizelf(''));
       
-      if( desaster.length > -1 ) {
-        grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desaster + '\n' );
-      }
       // Handle options.
       // src += options.punctuation;
 
@@ -113,7 +121,7 @@ module.exports = function(grunt) {
       src = src.replace(/(,)[^,]*(}$)/g, "\n$2");
 
       grunt.verbose.oklns("Successfully regexed...");
-
+      grunt.verbose.writeln(src)
       // Write the destination file.
       src = JSON.parse(src);
       grunt.file.write(f.dest,  JSON.stringify(src, null, 2));
