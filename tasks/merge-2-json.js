@@ -16,9 +16,10 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('merge-2-json', 'Merges Objects or key-value pairs to valid Json Object', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
+      lazy: false
     }),
 
-    // test = (options.lazy)? "true" : "false", 
+    test = (options.lazy)? "true" : "false", 
 
     filestring,
     desaster = "-1",
@@ -27,10 +28,12 @@ module.exports = function(grunt) {
     // remove any curly brackets
     regbracketstart = "{",
     regbracketend = "}",
-    // select any without quotes and add them
+    // select any without quotes
     regquoteskey = /([A-Za-z0-9_\-]+?)\s*:/g,
     regqoutesvalue = /([A-Za-z0-9_\-]+?)\s*(\s|,|$)/g,
-    // select any without comma and add it
+    // select quoted true or false
+    regboolean = /(")(true)(")|(")(false)(")/g,
+    // select any without comma
     regcomma = /(:\s)(".*")(?!\s*,)/g,
 
     regexes = [
@@ -38,13 +41,22 @@ module.exports = function(grunt) {
       regbracketstart,
       regbracketend,
       regquoteskey,
-      regqoutesvalue,
+      // regqoutesvalue,
       regcomma
     ],
     message = "",
     regreplace = "";
 
-    // grunt.log.writeln(test);
+    grunt.log.writeln(test);
+
+    if( options.lazy ) {
+      var regindex = regexes.indexOf(regquoteskey);
+      regexes.splice(regindex,0,regqoutesvalue);
+      regexes.splice(regindex + 1,0,regboolean);
+      grunt.log.writeln(regexes[5] + "\n" + regexes[6]);
+    }
+
+
     // Iterate over all specified file groups.
     this.files.forEach(function(f) {
 
@@ -62,6 +74,7 @@ module.exports = function(grunt) {
         // Read file source.
         filestring = grunt.file.read(filepath);
         grunt.log.writeln(filepath + "...");
+
         regexes.map(function(item,index) {
 
           switch (item) {
@@ -84,8 +97,13 @@ module.exports = function(grunt) {
               regreplace = '"$1":';
               break;
             case regqoutesvalue:
+              grunt.log.writeln("quoting")
               message = "quotes in value";
               regreplace = '"$1"$2';
+              break;
+            case regboolean:
+              message = "unqouted boolean";
+              regreplace = '$2$5';
               break;
             case regcomma:
               message = "comma after value";

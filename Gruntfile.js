@@ -31,15 +31,17 @@ module.exports = function(grunt) {
 
     // Configuration to be run (and then tested).
     'merge-2-json': {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/global.json': ['test/fixtures/*globals.js']
-        }
-      },
+      // default_options: {
+      //   options: {
+      //       lazy: false 
+      //   },
+      //   files: {
+      //     'tmp/global.json': ['test/fixtures/*globals.js']
+      //   }
+      // },
       custom_options: {
         options: {
+          lazy: true
         },
         files: {
          'tmp/global.json': ['test/fixtures/*globals.js']
