@@ -104,9 +104,6 @@ module.exports = function(grunt) {
           }
         });
   
-        if( desaster > -1 ) {
-          grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desasterpath + '\n' );
-        }
   
         grunt.log.oklns("...OK"); 
         return filestring;
@@ -120,8 +117,13 @@ module.exports = function(grunt) {
       // remove last comma
       src = src.replace(/(,)[^,]*(}$)/g, "\n$2");
 
-      grunt.verbose.oklns("Successfully regexed...");
       grunt.verbose.writeln(src)
+
+      if( desaster > -1 ) {
+        grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desasterpath + '\n' );
+      }
+
+      grunt.verbose.oklns("Successfully regexed...");
       // Write the destination file.
       src = JSON.parse(src);
       grunt.file.write(f.dest,  JSON.stringify(src, null, 2));
