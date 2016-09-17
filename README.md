@@ -2,7 +2,7 @@
 
 > Merges Objects or key-value pairs to valid Json Object
 
-### This plugin is still under Development, also the Readme is not up to date - but will be soon updated.
+### This plugin is still under Development, also the Readme is not up to date - but will soon be updated.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
