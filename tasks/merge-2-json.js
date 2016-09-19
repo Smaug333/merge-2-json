@@ -41,7 +41,9 @@ module.exports = function(grunt) {
       regcomma
     ],
     message = "",
-    regreplace = "";
+    regreplace = "",
+
+    output;
 
     if( options.lazy ) {
       var regindex = regexes.indexOf(regbracketend);
@@ -133,13 +135,15 @@ module.exports = function(grunt) {
       }
 
       grunt.verbose.oklns("Successfully regexed...");
-      grunt.log.debug(src);
-      grunt.verbose.writeln(src);
+
       // Write the destination file.
       src = JSON.parse(src);
       grunt.file.write(f.dest,  JSON.stringify(src, null, 2));
 
+      output = grunt.file.read(f.dest);
+
       // Print a success message.
+      grunt.log.oklns(output);
       grunt.log.oklns('File "' + f.dest + '" created.');
     });
   });
