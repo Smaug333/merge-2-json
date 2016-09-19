@@ -1,8 +1,6 @@
 # grunt-merge-2-json
 
-> Merges Objects or key-value pairs to valid Json Object
-
-### This plugin is still under Development, also the Readme is not up to date - but will soon be updated.
+> Merges Javascript Objects or key-value pairs to valid Json Object
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -39,53 +37,76 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
+#### options.lazy
+Type: boolean
+Default value: `false`
 
-A string value that is used to do something with whatever.
+Default takes ` "key": "value" ` pairs as is. May add commas where missing or removes them. Setting to ` true ` allows ` key: value ` pairs without qoutes. They are added by the plugin - leaving values ` true ` and ` false ` without.   
 
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options only add commas where they are mising or removes them on the last value to form proper JSON. 
 
 ```js
 grunt.initConfig({
   merge_2_json: {
     options: {},
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/global.json': ['src/*globals.cfg'],
     },
   },
 });
 ```
+#### Input
+
+```js
+"key1": "value1",
+"key2": false
+"key3": "value3",
+```
+#### Output
+
+```js
+"key1": "value1",
+"key2": false,
+"key3": "value3"
+```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example, the "lazy" option adds qoutes and commas where they are mising or removes comma on the last value to form proper JSON. 
 
 ```js
 grunt.initConfig({
   merge_2_json: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      lazy: true
     },
     files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+      'dest/global.json': ['src/*globals.cfg'],
     },
   },
 });
+```
+#### Input
+
+```js
+key1: value1,
+key2: false
+key3: value3,
+```
+#### Output
+
+```js
+"key1": "value1",
+"key2": false,
+"key3": "value3"
 ```
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
+* 2016\-09\-19   v0.1.1 lazy option enabled
 * 2016\-09\-16   v0.1.0 Release merge-2-json

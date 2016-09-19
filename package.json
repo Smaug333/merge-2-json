@@ -1,7 +1,7 @@
 {
   "name": "grunt-merge-2-json",
   "description": "Merges Objects or key-value pairs to valid Json Object",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/Smaug333/grunt-merge-2-json",
   "author": {
     "name": "Oliver Faro",

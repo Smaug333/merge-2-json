@@ -32,7 +32,7 @@ module.exports = function(grunt) {
     // select quoted true or false
     regboolean = /(")(true)(")|(")(false)(")/g,
     // select any without comma
-    regcomma = /(:\s)(".*")(?!\s*,)/g,
+    regcomma = /(:\s*)(true|false|".*")(?!\s*,)/g,
 
     regexes = [
       regumlaut,
@@ -133,6 +133,8 @@ module.exports = function(grunt) {
       }
 
       grunt.verbose.oklns("Successfully regexed...");
+      grunt.log.debug(src);
+      grunt.verbose.writeln(src);
       // Write the destination file.
       src = JSON.parse(src);
       grunt.file.write(f.dest,  JSON.stringify(src, null, 2));
