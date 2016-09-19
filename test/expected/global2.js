@@ -5,8 +5,8 @@
   "key4": "value4",
   "key5": "value_5",
   "key_6": "value6",
-  "key10": false,
-  "key11": true,
+  "key10": "test1",
+  "key11": "test2",
   "key12": "value12",
   "key-13": "value_13",
   "key14": "value14"

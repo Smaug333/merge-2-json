@@ -19,8 +19,6 @@ module.exports = function(grunt) {
       lazy: false
     }),
 
-    test = (options.lazy)? "true" : "false", 
-
     filestring,
     desaster = "-1",
     desasterpath = "",
@@ -40,20 +38,16 @@ module.exports = function(grunt) {
       regumlaut,
       regbracketstart,
       regbracketend,
-      regquoteskey,
-      // regqoutesvalue,
       regcomma
     ],
     message = "",
     regreplace = "";
 
-    grunt.log.writeln(test);
-
     if( options.lazy ) {
-      var regindex = regexes.indexOf(regquoteskey);
-      regexes.splice(regindex,0,regqoutesvalue);
-      regexes.splice(regindex + 1,0,regboolean);
-      grunt.log.writeln(regexes[5] + "\n" + regexes[6]);
+      var regindex = regexes.indexOf(regbracketend);
+      regexes.splice(regindex + 1,0,regquoteskey);
+      regexes.splice(regindex + 2,0,regqoutesvalue);
+      regexes.splice(regindex + 3,0,regboolean);
     }
 
 
@@ -97,7 +91,6 @@ module.exports = function(grunt) {
               regreplace = '"$1":';
               break;
             case regqoutesvalue:
-              grunt.log.writeln("quoting")
               message = "quotes in value";
               regreplace = '"$1"$2';
               break;
@@ -134,8 +127,6 @@ module.exports = function(grunt) {
       src = src.replace(/^/, '{\n' ).replace(/$/, '\n}' );
       // remove last comma
       src = src.replace(/(,)[^,]*(}$)/g, "\n$2");
-
-      grunt.verbose.writeln(src)
 
       if( desaster > -1 ) {
         grunt.fail.warn("Aborted...\n Don't use umlaute in your json!\n see:\n " + desasterpath + '\n' );
